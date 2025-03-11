@@ -96,65 +96,195 @@
         <option value="Reutilizar">Reutilizar</option>
     </select>
     <button onclick="addItem()">Agregar Ítem</button>
+    <button onclick="exportToExcel()">Exportar a Excel</button>
     
     <div id="item-list"></div>
 
     <footer>
         © 2025 Terraequipo® - Optimización y gestión de equipos pesados.
     </footer>
-
+    
+    <!-- Incluir librerías para exportación -->
+    <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
+    <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
+    
     <script>
+        // Array para almacenar todos los artículos
+        let allItems = [];
+        
         function addItem() {
-            let name = document.getElementById('item-name').value;
-            let brand = document.getElementById('item-brand').value;
-            let description = document.getElementById('item-description').value;
-            let weight = document.getElementById('item-weight').value;
-            let condition = document.getElementById('item-condition').value;
-            let marketValue = document.getElementById('item-market-value').value;
-            let recycleValue = document.getElementById('item-recycle-value').value;
-            let serial = document.getElementById('item-serial').value;
-            let invoice = document.getElementById('item-invoice').value;
-            let location = document.getElementById('item-location').value;
-            let date = document.getElementById('item-date').value;
-            let owner = document.getElementById('item-owner').value;
-            let notes = document.getElementById('item-notes').value;
+            let name = document.getElementById('item-name').value.trim(); 
+            let brand = document.getElementById('item-brand').value.trim();
+            let description = document.getElementById('item-description').value.trim();
+            let weightStr = document.getElementById('item-weight').value.trim();
+            let condition = document.getElementById('item-condition').value.trim();
+            let marketValueStr = document.getElementById('item-market-value').value.trim();
+            let recycleValueStr = document.getElementById('item-recycle-value').value.trim();
+            let serial = document.getElementById('item-serial').value.trim();
+            let invoice = document.getElementById('item-invoice').value.trim();
+            let location = document.getElementById('item-location').value.trim();
+            let date = document.getElementById('item-date').value.trim();
+            let owner = document.getElementById('item-owner').value.trim();
+            let notes = document.getElementById('item-notes').value.trim();
             let category = document.getElementById('item-category').value;
             let imageInput = document.getElementById('item-image');
-            
+            let imageFile = imageInput.files[0];
+            let imageSrc = ''; 
+
             if (name === '') {
                 alert('Por favor, ingrese un nombre para el ítem.');
                 return;
             }
 
-            let reader = new FileReader();
-            reader.onload = function (e) {
-                let itemList = document.getElementById('item-list');
-                let itemDiv = document.createElement('div');
-                itemDiv.classList.add('item');
-                itemDiv.innerHTML = `<strong>${name} (${brand})</strong><br>
-                                    <img src="${e.target.result}" width="100"><br>
-                                    Descripción: ${description}<br>
-                                    Peso: ${weight} kg<br>
-                                    Estado: ${condition}<br>
-                                    Valor de mercado: $${marketValue}<br>
-                                    Valor reciclaje: $${recycleValue}/kg<br>
-                                    Número de serie: ${serial}<br>
-                                    Factura: ${invoice}<br>
-                                    Ubicación: ${location}<br>
-                                    Fecha de ingreso: ${date}<br>
-                                    Propietario: ${owner}<br>
-                                    Notas: ${notes}<br>
-                                    Categoría: ${category}`;
-                itemList.appendChild(itemDiv);
+            let weight = parseFloat(weightStr);
+            if (isNaN(weight)) {
+                weight = 0; 
+            }
+            let marketValue = parseFloat(marketValueStr);
+            if (isNaN(marketValue)) {
+                marketValue = 0; 
+            }
+            let recycleValue = parseFloat(recycleValueStr);
+            if (isNaN(recycleValue)) {
+                recycleValue = 0; 
+            }
+
+            // Crear objeto del artículo para guardarlo
+            let item = {
+                name, brand, description, weight, condition, 
+                marketValue, recycleValue, serial, invoice, 
+                location, date, owner, notes, category
             };
-            
-            if (imageInput.files.length > 0) {
-                reader.readAsDataURL(imageInput.files[0]);
+
+            if (imageFile) {
+                let reader = new FileReader();
+                reader.onload = function (e) {
+                    imageSrc = `<img src="${e.target.result}" width="100"><br>`;
+                    item.imageData = e.target.result;
+                    allItems.push(item);
+                    createItemDiv(name, brand, description, weight, condition, marketValue, recycleValue, 
+                                 serial, invoice, location, date, owner, notes, category, imageSrc, allItems.length - 1);
+                };
+                reader.readAsDataURL(imageFile);
             } else {
-                alert('Por favor, seleccione una imagen.');
+                allItems.push(item);
+                createItemDiv(name, brand, description, weight, condition, marketValue, recycleValue, 
+                             serial, invoice, location, date, owner, notes, category, imageSrc, allItems.length - 1); 
             }
         }
+
+        function createItemDiv(name, brand, description, weight, condition, marketValue, recycleValue, serial, invoice, location, date, owner, notes, category, imageSrc, itemIndex) {
+            let itemList = document.getElementById('item-list');
+            let itemDiv = document.createElement('div');
+            itemDiv.classList.add('item');
+            itemDiv.dataset.index = itemIndex;
+            
+            itemDiv.innerHTML = `<strong>${name} (${brand})</strong><br>
+                                ${imageSrc}
+                                Descripción: ${description}<br>
+                                Peso: ${weight} kg<br>
+                                Estado: ${condition}<br>
+                                Valor de mercado: $${marketValue}<br>
+                                Valor reciclaje: $${recycleValue}/kg<br>
+                                Número de serie: ${serial}<br>
+                                Factura: ${invoice}<br>
+                                Ubicación: ${location}<br>
+                                Fecha de ingreso: ${date}<br>
+                                Propietario: ${owner}<br>
+                                Notas: ${notes}<br>
+                                Categoría: ${category}
+                                <br><button onclick="exportToPDF(${itemIndex})">Exportar a PDF</button>`;
+            
+            itemList.appendChild(itemDiv);
+            alert('Ítem agregado correctamente.');
+
+            document.getElementById('item-name').value = '';
+            document.getElementById('item-brand').value = '';
+            document.getElementById('item-description').value = '';
+            document.getElementById('item-weight').value = '';
+            document.getElementById('item-condition').value = '';
+            document.getElementById('item-market-value').value = '';
+            document.getElementById('item-recycle-value').value = '';
+            document.getElementById('item-serial').value = '';
+            document.getElementById('item-invoice').value = '';
+            document.getElementById('item-location').value = '';
+            document.getElementById('item-date').value = '';
+            document.getElementById('item-owner').value = '';
+            document.getElementById('item-notes').value = '';
+            document.getElementById('item-category').value = 'Reciclar'; 
+            document.getElementById('item-image').value = '';
+        }
         
+        // Función para exportar a Excel
+        function exportToExcel() {
+            if (allItems.length === 0) {
+                alert('No hay artículos para exportar.');
+                return;
+            }
+            
+            // Crear una hoja de trabajo
+            let workbook = XLSX.utils.book_new();
+            let worksheet = XLSX.utils.json_to_sheet(allItems);
+            
+            // Añadir la hoja al libro
+            XLSX.utils.book_append_sheet(workbook, worksheet, "Artículos");
+            
+            // Generar el archivo Excel
+            XLSX.writeFile(workbook, "articulos_majahua.xlsx");
+        }
+        
+        // Función para exportar a PDF
+        function exportToPDF(itemIndex) {
+            const { jsPDF } = window.jspdf;
+            
+            // Obtener el elemento del artículo
+            let itemDiv = document.querySelector(`.item[data-index="${itemIndex}"]`);
+            if (!itemDiv) {
+                alert('No se pudo encontrar el artículo.');
+                return;
+            }
+            
+            // Crear copia temporal para screenshot
+            let tempDiv = itemDiv.cloneNode(true);
+            tempDiv.style.width = "500px";
+            tempDiv.style.padding = "20px";
+            tempDiv.style.backgroundColor = "white";
+            
+            // Ocultar el botón de exportar en la copia
+            let exportButton = tempDiv.querySelector('button');
+            if (exportButton) {
+                exportButton.style.display = 'none';
+            }
+            
+            document.body.appendChild(tempDiv);
+            
+            // Crear PDF
+            html2canvas(tempDiv).then(canvas => {
+                document.body.removeChild(tempDiv);
+                
+                const imgData = canvas.toDataURL('image/png');
+                const pdf = new jsPDF('p', 'mm', 'a4');
+                const pdfWidth = pdf.internal.pageSize.getWidth();
+                const pdfHeight = pdf.internal.pageSize.getHeight();
+                const imgWidth = canvas.width;
+                const imgHeight = canvas.height;
+                const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
+                const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                
+                // Añadir encabezado
+                pdf.setFontSize(16);
+                pdf.text("Ficha Técnica - Artículos Majahua", pdfWidth/2, 15, { align: 'center' });
+                
+                // Añadir imagen del artículo
+                pdf.addImage(imgData, 'PNG', imgX, 30, imgWidth * ratio, imgHeight * ratio);
+                
+                // Guardar el PDF
+                const item = allItems[itemIndex];
+                pdf.save(`ficha_tecnica_${item.name.replace(/\s+/g, '_')}.pdf`);
+            });
+        }
+
         function toggleContrast() {
             document.body.classList.toggle('high-contrast');
         }
