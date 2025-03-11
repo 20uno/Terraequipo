@@ -176,6 +176,15 @@
             cursor: pointer;
             color: var(--text-color); /* Asegurar que el texto sea siempre visible */
             font-weight: 500;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 5px; /* Espacio entre icono y texto */
+        }
+        
+        .view-btn i {
+            font-size: 1.1rem;
+            display: inline-block !important;
         }
 
         .view-btn.active {
@@ -362,17 +371,19 @@
         /* Media queries para móviles */
         @media (max-width: 768px) {
             .tab i {
-                font-size: 1.2rem;
-                display: block;
+                font-size: 1.4rem;
+                display: block !important; /* Forzar que se muestre */
                 margin-bottom: 5px;
+                opacity: 1 !important; /* Asegurar visibilidad */
             }
 
             .tab span {
                 font-size: 0.8rem;
+                display: block; /* Asegurar que el texto también sea visible */
             }
 
             .tabs {
-                padding: 8px 0;
+                padding: 10px 0;
             }
 
             .form-grid {
@@ -381,6 +392,18 @@
 
             .action-buttons {
                 flex-direction: column;
+            }
+            
+            /* Mejorar contraste de íconos en pestañas */
+            .tab {
+                padding: 12px 5px;
+                border-radius: 8px;
+                background-color: rgba(255, 255, 255, 0.9);
+                margin: 0 2px;
+            }
+            
+            .tab.active i {
+                color: white;
             }
         }
     </style>
@@ -994,10 +1017,20 @@
 
         // Comprobar si estamos en móvil para ajustar estilos adicionales
         document.addEventListener('DOMContentLoaded', function() {
+            // Asegurarse de que los iconos se muestren correctamente siempre
+            document.querySelectorAll('.tab i').forEach(icon => {
+                icon.style.display = 'block';
+                icon.style.visibility = 'visible';
+                icon.style.opacity = '1';
+            });
+
             if (window.innerWidth <= 768) {
-                // Asegurarse de que los iconos se muestren correctamente en móvil
-                document.querySelectorAll('.tab i').forEach(icon => {
-                    icon.style.display = 'block';
+                // Aplicar estilos adicionales en móvil
+                document.querySelectorAll('.tab').forEach(tab => {
+                    tab.style.display = 'flex';
+                    tab.style.flexDirection = 'column';
+                    tab.style.alignItems = 'center';
+                    tab.style.justifyContent = 'center';
                 });
             }
 
