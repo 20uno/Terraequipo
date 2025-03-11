@@ -1,0 +1,163 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Artículos Majahua</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            background-color: #f4ede1;
+            color: #333;
+        }
+        h1 {
+            background-color: #d97706;
+            color: white;
+            padding: 10px;
+            border-radius: 10px;
+        }
+        input, select, button, textarea {
+            margin: 5px;
+            padding: 8px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+        button {
+            background-color: #d97706;
+            color: white;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #b65c04;
+        }
+        #item-list {
+            margin-top: 20px;
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+        }
+        .item {
+            border: 2px solid #d97706;
+            background-color: #fff;
+            padding: 15px;
+            margin: 10px;
+            border-radius: 10px;
+            width: 250px;
+            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+        }
+        .item img {
+            max-width: 100px;
+            border-radius: 5px;
+        }
+        footer {
+            margin-top: 30px;
+            background-color: #222;
+            color: white;
+            padding: 15px;
+            font-size: 14px;
+        }
+        .high-contrast {
+            background-color: black !important;
+            color: yellow !important;
+        }
+        .high-contrast h1 {
+            background-color: yellow !important;
+            color: black !important;
+        }
+        .high-contrast button {
+            background-color: yellow !important;
+            color: black !important;
+        }
+    </style>
+</head>
+<body>
+    <h1>Artículos Majahua</h1>
+    <button onclick="toggleContrast()">Modo Alto Contraste</button>
+    <input type="text" id="item-name" placeholder="Nombre del ítem">
+    <input type="file" id="item-image" accept="image/*">
+    <input type="text" id="item-brand" placeholder="Marca">
+    <input type="text" id="item-description" placeholder="Descripción">
+    <input type="text" id="item-weight" placeholder="Peso (kg)">
+    <input type="text" id="item-condition" placeholder="Estado">
+    <input type="text" id="item-market-value" placeholder="Valor de mercado ($)">
+    <input type="text" id="item-recycle-value" placeholder="Valor reciclaje ($/kg)">
+    <input type="text" id="item-serial" placeholder="Número de serie">
+    <input type="text" id="item-invoice" placeholder="Factura">
+    <input type="text" id="item-location" placeholder="Ubicación">
+    <input type="date" id="item-date" placeholder="Fecha de ingreso">
+    <input type="text" id="item-owner" placeholder="Propietario">
+    <textarea id="item-notes" placeholder="Notas adicionales"></textarea>
+    <select id="item-category">
+        <option value="Reciclar">Reciclar</option>
+        <option value="Vender">Vender</option>
+        <option value="Redirigir">Redirigir</option>
+        <option value="Reutilizar">Reutilizar</option>
+    </select>
+    <button onclick="addItem()">Agregar Ítem</button>
+    
+    <div id="item-list"></div>
+
+    <footer>
+        © 2025 Terraequipo® - Optimización y gestión de equipos pesados.
+    </footer>
+
+    <script>
+        function addItem() {
+            let name = document.getElementById('item-name').value;
+            let brand = document.getElementById('item-brand').value;
+            let description = document.getElementById('item-description').value;
+            let weight = document.getElementById('item-weight').value;
+            let condition = document.getElementById('item-condition').value;
+            let marketValue = document.getElementById('item-market-value').value;
+            let recycleValue = document.getElementById('item-recycle-value').value;
+            let serial = document.getElementById('item-serial').value;
+            let invoice = document.getElementById('item-invoice').value;
+            let location = document.getElementById('item-location').value;
+            let date = document.getElementById('item-date').value;
+            let owner = document.getElementById('item-owner').value;
+            let notes = document.getElementById('item-notes').value;
+            let category = document.getElementById('item-category').value;
+            let imageInput = document.getElementById('item-image');
+            
+            if (name === '') {
+                alert('Por favor, ingrese un nombre para el ítem.');
+                return;
+            }
+
+            let reader = new FileReader();
+            reader.onload = function (e) {
+                let itemList = document.getElementById('item-list');
+                let itemDiv = document.createElement('div');
+                itemDiv.classList.add('item');
+                itemDiv.innerHTML = `<strong>${name} (${brand})</strong><br>
+                                    <img src="${e.target.result}" width="100"><br>
+                                    Descripción: ${description}<br>
+                                    Peso: ${weight} kg<br>
+                                    Estado: ${condition}<br>
+                                    Valor de mercado: $${marketValue}<br>
+                                    Valor reciclaje: $${recycleValue}/kg<br>
+                                    Número de serie: ${serial}<br>
+                                    Factura: ${invoice}<br>
+                                    Ubicación: ${location}<br>
+                                    Fecha de ingreso: ${date}<br>
+                                    Propietario: ${owner}<br>
+                                    Notas: ${notes}<br>
+                                    Categoría: ${category}`;
+                itemList.appendChild(itemDiv);
+            };
+            
+            if (imageInput.files.length > 0) {
+                reader.readAsDataURL(imageInput.files[0]);
+            } else {
+                alert('Por favor, seleccione una imagen.');
+            }
+        }
+        
+        function toggleContrast() {
+            document.body.classList.toggle('high-contrast');
+        }
+    </script>
+</body>
+</html>
