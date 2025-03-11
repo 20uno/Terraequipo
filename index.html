@@ -140,6 +140,7 @@
         .tab i {
             font-size: 1.5rem;
             margin-bottom: 5px;
+            display: block; /* Asegura que el icono se muestre */
         }
         
         .tab.active {
@@ -174,6 +175,8 @@
             border: 1px solid #ddd;
             border-radius: 5px;
             cursor: pointer;
+            color: var(--text-color); /* Asegurar que el texto sea siempre visible */
+            font-weight: 500;
         }
         
         .view-btn.active {
@@ -198,7 +201,8 @@
             padding: 20px;
             border-radius: 10px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
-            transition: transform 0.3s, box-shadow 0.3s;
+            transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
+            opacity: 1;
         }
         
         .item:hover {
@@ -214,10 +218,13 @@
         }
         
         .item img {
-            max-width: 100px;
+            max-width: 100%;
+            height: auto;
             border-radius: 5px;
             display: block;
             margin: 10px 0;
+            max-height: 150px;
+            object-fit: contain;
         }
         
         .item-list.list-view .item {
@@ -229,6 +236,29 @@
         
         .item-list.list-view .item img {
             grid-row: span 6;
+            margin: 0;
+            width: 100%;
+            height: auto;
+        }
+        
+        #items-header {
+            margin-bottom: 20px;
+            text-align: left;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #eee;
+            padding-bottom: 10px;
+        }
+        
+        #items-header h3 {
+            color: var(--primary-color);
+            margin: 0;
+        }
+        
+        .view-indicator {
+            font-size: 0.9rem;
+            color: #777;
             margin: 0;
         }
         
@@ -329,6 +359,31 @@
         .tab-content {
             padding-bottom: 150px;
         }
+        
+        /* Media queries para móviles */
+        @media (max-width: 768px) {
+            .tab i {
+                font-size: 1.2rem;
+                display: block;
+                margin-bottom: 5px;
+            }
+            
+            .tab span {
+                font-size: 0.8rem;
+            }
+            
+            .tabs {
+                padding: 8px 0;
+            }
+            
+            .form-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .action-buttons {
+                flex-direction: column;
+            }
+        }
     </style>
 </head>
 <body>
@@ -363,7 +418,7 @@
                 
                 <div class="action-buttons">
                     <button onclick="toggleContrast()"><i class="fas fa-adjust"></i> Modo Contraste</button>
-                    <button onclick="addItem()"><i class="fas fa-plus"></i> Agregar Ítem</button>
+                    <button onclick="addItem()"><i class="fas fa-plus"></i> Agregar</button>
                     <button onclick="exportToExcel()"><i class="fas fa-file-excel"></i> Exportar a Excel</button>
                 </div>
             </div>
@@ -375,7 +430,15 @@
                 <button class="view-btn active" onclick="changeView('grid')"><i class="fas fa-th"></i> Cuadrícula</button>
                 <button class="view-btn" onclick="changeView('list')"><i class="fas fa-list"></i> Lista</button>
             </div>
+            <div id="items-header">
+                <h3>Artículos Agregados</h3>
+                <p class="view-indicator">Modo de visualización: <span id="current-view">Cuadrícula</span></p>
+            </div>
             <div id="item-list" class="item-list"></div>
+            <div id="no-items-message" style="display: none; text-align: center; margin: 40px 0;">
+                <i class="fas fa-box-open" style="font-size: 48px; color: #ccc; display: block; margin-bottom: 15px;"></i>
+                <p>No hay artículos agregados. Utilice el formulario para agregar nuevos artículos.</p>
+            </div>
         </div>
     </div>
     
@@ -412,6 +475,14 @@
         // Array para almacenar todos los artículos
         let allItems = [];
         
+        // Formatear valor en formato de moneda mexicana
+        function formatCurrency(value) {
+            return new Intl.NumberFormat('es-MX', {
+                minimumFractionDigits: 2,
+                maximumFractionDigits: 2
+            }).format(value);
+        }
+        
         // Mostrar una pestaña
         function showTab(tabId, tabElement) {
             // Ocultar todas las pestañas
@@ -435,6 +506,7 @@
         function changeView(viewType) {
             const itemList = document.getElementById('item-list');
             const viewButtons = document.querySelectorAll('.view-btn');
+            const currentViewSpan = document.getElementById('current-view');
             
             // Desactivar todos los botones de vista
             viewButtons.forEach(btn => btn.classList.remove('active'));
@@ -442,11 +514,20 @@
             // Activar el botón seleccionado
             event.currentTarget.classList.add('active');
             
+            // Actualizar el indicador de vista actual
             if (viewType === 'list') {
                 itemList.classList.add('list-view');
+                currentViewSpan.textContent = 'Lista';
             } else {
                 itemList.classList.remove('list-view');
+                currentViewSpan.textContent = 'Cuadrícula';
             }
+            
+            // Animar el cambio de vista
+            itemList.style.opacity = '0';
+            setTimeout(() => {
+                itemList.style.opacity = '1';
+            }, 100);
         }
         
         // Mostrar notificación
@@ -477,7 +558,6 @@
             let category = document.getElementById('item-category').value;
             let imageInput = document.getElementById('item-image');
             let imageFile = imageInput.files[0];
-            let imageSrc = ''; 
 
             if (name === '') {
                 alert('Por favor, ingrese un nombre para el ítem.');
@@ -507,13 +587,15 @@
             if (imageFile) {
                 let reader = new FileReader();
                 reader.onload = function (e) {
-                    imageSrc = e.target.result;
-                    item.imageData = imageSrc;
+                    item.imageData = e.target.result;
                     allItems.push(item);
                     createItemDiv(item, allItems.length - 1);
                     
                     // Mostrar notificación
                     showNotification();
+                    
+                    // Cambiar a la pestaña de artículos
+                    document.querySelector('.tab:nth-child(2)').click();
                     
                     // Limpiar formulario
                     clearForm();
@@ -526,6 +608,9 @@
                 // Mostrar notificación
                 showNotification();
                 
+                // Cambiar a la pestaña de artículos
+                document.querySelector('.tab:nth-child(2)').click();
+                
                 // Limpiar formulario
                 clearForm();
             }
@@ -537,6 +622,9 @@
             itemDiv.classList.add('item');
             itemDiv.dataset.index = itemIndex;
             
+            // Ocultar mensaje de "no hay artículos"
+            document.getElementById('no-items-message').style.display = 'none';
+            
             // Construir el HTML del artículo
             let imageHtml = item.imageData ? `<img src="${item.imageData}" alt="${item.name}">` : '';
             
@@ -546,8 +634,8 @@
                 <div class="item-detail"><span>Descripción:</span> <span>${item.description || 'N/A'}</span></div>
                 <div class="item-detail"><span>Peso:</span> <span>${item.weight} kg</span></div>
                 <div class="item-detail"><span>Estado:</span> <span>${item.condition || 'N/A'}</span></div>
-                <div class="item-detail"><span>Valor de mercado:</span> <span>$${item.marketValue}</span></div>
-                <div class="item-detail"><span>Valor reciclaje:</span> <span>$${item.recycleValue}/kg</span></div>
+                <div class="item-detail"><span>Valor de mercado:</span> <span>$${formatCurrency(item.marketValue)}</span></div>
+                <div class="item-detail"><span>Valor reciclaje:</span> <span>$${formatCurrency(item.recycleValue)}/kg</span></div>
                 <div class="item-detail"><span>Número de serie:</span> <span>${item.serial || 'N/A'}</span></div>
                 <div class="item-detail"><span>Factura:</span> <span>${item.invoice || 'N/A'}</span></div>
                 <div class="item-detail"><span>Ubicación:</span> <span>${item.location || 'N/A'}</span></div>
@@ -560,7 +648,12 @@
                 </div>
             `;
             
+            // Añadimos con una animación
+            itemDiv.style.opacity = '0';
             itemList.appendChild(itemDiv);
+            setTimeout(() => {
+                itemDiv.style.opacity = '1';
+            }, 10);
         }
         
         function clearForm() {
@@ -606,58 +699,129 @@
         // Función para exportar a PDF
         function exportToPDF(itemIndex) {
             const { jsPDF } = window.jspdf;
+            const item = allItems[itemIndex];
             
-            // Obtener el elemento del artículo
-            let itemDiv = document.querySelector(`.item[data-index="${itemIndex}"]`);
-            if (!itemDiv) {
+            if (!item) {
                 alert('No se pudo encontrar el artículo.');
                 return;
             }
             
-            // Crear copia temporal para screenshot
-            let tempDiv = itemDiv.cloneNode(true);
-            tempDiv.style.width = "500px";
-            tempDiv.style.padding = "20px";
-            tempDiv.style.backgroundColor = "white";
-            tempDiv.style.color = "black";
+            // Crear un nuevo PDF
+            const pdf = new jsPDF('p', 'mm', 'a4');
+            const pdfWidth = pdf.internal.pageSize.getWidth();
             
-            // Ocultar los botones en la copia
-            let buttons = tempDiv.querySelectorAll('button');
-            buttons.forEach(button => {
-                button.style.display = 'none';
-            });
+            // Añadir encabezado con el nombre del artículo
+            pdf.setFontSize(18);
+            pdf.setTextColor(217, 119, 6); // Color primario
+            pdf.text(item.name, pdfWidth/2, 15, { align: 'center' });
             
-            document.body.appendChild(tempDiv);
+            // Añadir subtítulo
+            pdf.setFontSize(14);
+            pdf.setTextColor(0, 0, 0);
+            pdf.text("Ficha Técnica", pdfWidth/2, 25, { align: 'center' });
             
-            // Crear PDF
-            html2canvas(tempDiv).then(canvas => {
-                document.body.removeChild(tempDiv);
+            // Añadir línea horizontal
+            pdf.setDrawColor(217, 119, 6);
+            pdf.setLineWidth(0.5);
+            pdf.line(20, 30, pdfWidth - 20, 30);
+            
+            // Si hay imagen, añadirla
+            let currentY = 40;
+            if (item.imageData) {
+                // Crear imagen temporal para obtener dimensiones
+                const img = new Image();
+                img.src = item.imageData;
                 
-                const imgData = canvas.toDataURL('image/png');
-                const pdf = new jsPDF('p', 'mm', 'a4');
-                const pdfWidth = pdf.internal.pageSize.getWidth();
-                const pdfHeight = pdf.internal.pageSize.getHeight();
-                const imgWidth = canvas.width;
-                const imgHeight = canvas.height;
-                const ratio = Math.min(pdfWidth / imgWidth, pdfHeight / imgHeight);
-                const imgX = (pdfWidth - imgWidth * ratio) / 2;
+                // Calcular relación de aspecto manteniendo un ancho máximo
+                const maxWidth = 100;
+                const aspectRatio = img.height / img.width;
+                const imgWidth = Math.min(maxWidth, pdfWidth - 40);
+                const imgHeight = imgWidth * aspectRatio;
                 
-                // Añadir encabezado
-                pdf.setFontSize(16);
-                pdf.text("Ficha Técnica - Artículos Majahua", pdfWidth/2, 15, { align: 'center' });
+                // Centrar imagen
+                const imgX = (pdfWidth - imgWidth) / 2;
                 
-                // Añadir imagen del artículo
-                pdf.addImage(imgData, 'PNG', imgX, 30, imgWidth * ratio, imgHeight * ratio);
+                // Añadir imagen
+                pdf.addImage(item.imageData, 'JPEG', imgX, currentY, imgWidth, imgHeight);
+                currentY += imgHeight + 15;
+            }
+            
+            // Añadir detalles del artículo
+            pdf.setFontSize(11);
+            pdf.setTextColor(0, 0, 0);
+            
+            // Función auxiliar para añadir texto con etiqueta
+            function addDetail(label, value, y) {
+                pdf.setFont('helvetica', 'bold');
+                pdf.text(label + ":", 20, y);
+                pdf.setFont('helvetica', 'normal');
+                pdf.text(value || 'N/A', 80, y);
+                return y + 8;
+            }
+            
+            currentY = addDetail("Marca", item.brand, currentY);
+            currentY = addDetail("Descripción", item.description, currentY);
+            currentY = addDetail("Peso", item.weight + " kg", currentY);
+            currentY = addDetail("Estado", item.condition, currentY);
+            currentY = addDetail("Valor de mercado", "$" + formatCurrency(item.marketValue), currentY);
+            currentY = addDetail("Valor reciclaje", "$" + formatCurrency(item.recycleValue) + "/kg", currentY);
+            currentY = addDetail("Número de serie", item.serial, currentY);
+            currentY = addDetail("Factura", item.invoice, currentY);
+            currentY = addDetail("Ubicación", item.location, currentY);
+            currentY = addDetail("Fecha de ingreso", item.date, currentY);
+            currentY = addDetail("Propietario", item.owner, currentY);
+            currentY = addDetail("Categoría", item.category, currentY);
+            
+            // Añadir notas si existen
+            if (item.notes) {
+                currentY += 5;
+                pdf.setFont('helvetica', 'bold');
+                pdf.text("Notas:", 20, currentY);
+                currentY += 8;
+                pdf.setFont('helvetica', 'normal');
                 
-                // Guardar el PDF
-                const item = allItems[itemIndex];
-                pdf.save(`ficha_tecnica_${item.name.replace(/\s+/g, '_')}.pdf`);
-            });
+                // Dividir notas en múltiples líneas si es necesario
+                const splitNotes = pdf.splitTextToSize(item.notes, pdfWidth - 40);
+                pdf.text(splitNotes, 20, currentY);
+            }
+            
+            // Añadir pie de página
+            pdf.setFontSize(9);
+            pdf.setTextColor(100, 100, 100);
+            pdf.text("© 2025 Terraequipo® - Optimización y gestión de equipos pesados.", pdfWidth/2, 290, { align: 'center' });
+            
+            // Guardar el PDF con el nombre del artículo
+            pdf.save(`${item.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`);
         }
 
         function toggleContrast() {
             document.body.classList.toggle('high-contrast');
         }
+        
+        // Comprobar si hay artículos al cargar la página
+        function checkItemsExist() {
+            const noItemsMessage = document.getElementById('no-items-message');
+            const itemList = document.getElementById('item-list');
+            
+            if (allItems.length === 0) {
+                noItemsMessage.style.display = 'block';
+            } else {
+                noItemsMessage.style.display = 'none';
+            }
+        }
+        
+        // Comprobar si estamos en móvil para ajustar estilos adicionales
+        document.addEventListener('DOMContentLoaded', function() {
+            if (window.innerWidth <= 768) {
+                // Asegurarse de que los iconos se muestren correctamente en móvil
+                document.querySelectorAll('.tab i').forEach(icon => {
+                    icon.style.display = 'block';
+                });
+            }
+            
+            // Verificar si hay artículos al cargar
+            checkItemsExist();
+        });
     </script>
 </body>
 </html>
