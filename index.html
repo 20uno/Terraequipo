@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="es">
 <head>
@@ -16,14 +15,14 @@
             --text-color: #333333;
             --accent-color: #3b82f6;
         }
-        
+
         * {
             box-sizing: border-box;
             margin: 0;
             padding: 0;
             transition: all 0.3s ease;
         }
-        
+
         body {
             font-family: 'Poppins', sans-serif;
             background-color: var(--background-color);
@@ -33,7 +32,7 @@
             display: flex;
             flex-direction: column;
         }
-        
+
         h1 {
             background-color: var(--primary-color);
             color: white;
@@ -43,14 +42,14 @@
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
             text-align: center;
         }
-        
+
         .container {
             max-width: 1200px;
             margin: 0 auto;
             padding: 0 20px;
             flex: 1;
         }
-        
+
         .form-container {
             background-color: var(--card-color);
             border-radius: 10px;
@@ -58,13 +57,13 @@
             margin-bottom: 20px;
             box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
         }
-        
+
         .form-grid {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
             gap: 10px;
         }
-        
+
         input, select, button, textarea {
             width: 100%;
             padding: 10px;
@@ -73,13 +72,13 @@
             font-family: 'Poppins', sans-serif;
             transition: border-color 0.3s;
         }
-        
+
         input:focus, select:focus, textarea:focus {
             outline: none;
             border-color: var(--accent-color);
             box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
         }
-        
+
         button {
             background-color: var(--primary-color);
             color: white;
@@ -93,23 +92,23 @@
             justify-content: center;
             gap: 8px;
         }
-        
+
         button:hover {
             background-color: var(--primary-dark);
             transform: translateY(-2px);
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
         }
-        
+
         .action-buttons {
             display: flex;
             gap: 10px;
             margin-top: 15px;
         }
-        
+
         .action-buttons button {
             flex: 1;
         }
-        
+
         .tabs {
             position: fixed;
             bottom: 0;
@@ -122,7 +121,7 @@
             box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
             z-index: 100;
         }
-        
+
         .tab {
             padding: 10px 20px;
             cursor: pointer;
@@ -136,39 +135,39 @@
             flex: 1;
             max-width: 150px;
         }
-        
+
         .tab i {
             font-size: 1.5rem;
             margin-bottom: 5px;
             display: block; /* Asegura que el icono se muestre */
         }
-        
+
         .tab.active {
             background-color: var(--primary-color);
             color: white;
         }
-        
+
         .tab-content {
             display: none;
             padding-bottom: 80px; /* Space for tabs */
         }
-        
+
         .tab-content.active {
             display: block;
             animation: fadeIn 0.5s ease;
         }
-        
+
         #items-tab-content {
             padding: 20px 0;
         }
-        
+
         .view-controls {
             display: flex;
             justify-content: flex-end;
             margin-bottom: 15px;
             gap: 10px;
         }
-        
+
         .view-btn {
             padding: 8px 12px;
             background-color: var(--card-color);
@@ -178,23 +177,23 @@
             color: var(--text-color); /* Asegurar que el texto sea siempre visible */
             font-weight: 500;
         }
-        
+
         .view-btn.active {
             background-color: var(--primary-color);
             color: white;
             border-color: var(--primary-color);
         }
-        
+
         .item-list {
             display: grid;
             grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
             gap: 20px;
         }
-        
+
         .item-list.list-view {
             grid-template-columns: 1fr;
         }
-        
+
         .item {
             border: 1px solid #ddd;
             background-color: var(--card-color);
@@ -204,19 +203,19 @@
             transition: transform 0.3s, box-shadow 0.3s, opacity 0.3s;
             opacity: 1;
         }
-        
+
         .item:hover {
             transform: translateY(-5px);
             box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
         }
-        
+
         .item-title {
             font-weight: 600;
             font-size: 1.2rem;
             margin-bottom: 10px;
             color: var(--primary-color);
         }
-        
+
         .item img {
             max-width: 100%;
             height: auto;
@@ -226,21 +225,21 @@
             max-height: 150px;
             object-fit: contain;
         }
-        
+
         .item-list.list-view .item {
             display: grid;
             grid-template-columns: 120px 1fr;
             gap: 20px;
             align-items: center;
         }
-        
+
         .item-list.list-view .item img {
             grid-row: span 6;
             margin: 0;
             width: 100%;
             height: auto;
         }
-        
+
         #items-header {
             margin-bottom: 20px;
             text-align: left;
@@ -250,35 +249,35 @@
             border-bottom: 1px solid #eee;
             padding-bottom: 10px;
         }
-        
+
         #items-header h3 {
             color: var(--primary-color);
             margin: 0;
         }
-        
+
         .view-indicator {
             font-size: 0.9rem;
             color: #777;
             margin: 0;
         }
-        
+
         .item-detail {
             margin: 5px 0;
             display: flex;
             flex-wrap: wrap;
         }
-        
+
         .item-detail span:first-child {
             font-weight: 500;
             min-width: 150px;
         }
-        
+
         .item-actions {
             margin-top: 15px;
             display: flex;
             gap: 10px;
         }
-        
+
         .notification {
             position: fixed;
             top: 20px;
@@ -294,31 +293,31 @@
             align-items: center;
             gap: 10px;
         }
-        
+
         .notification.show {
             transform: translateX(0);
             animation: slideIn 0.5s ease, fadeOut 0.5s ease 4s forwards;
         }
-        
+
         .notification i {
             font-size: 1.5rem;
         }
-        
+
         @keyframes fadeIn {
             from { opacity: 0; }
             to { opacity: 1; }
         }
-        
+
         @keyframes slideIn {
             from { transform: translateX(200%); }
             to { transform: translateX(0); }
         }
-        
+
         @keyframes fadeOut {
             from { opacity: 1; }
             to { opacity: 0; }
         }
-        
+
         footer {
             background-color: #222;
             color: white;
@@ -327,12 +326,12 @@
             text-align: center;
             margin-top: auto;
         }
-        
+
         .footer-content {
             max-width: 1200px;
             margin: 0 auto;
         }
-        
+
         .high-contrast {
             --background-color: black;
             --card-color: #333;
@@ -340,26 +339,26 @@
             --primary-color: yellow;
             --primary-dark: #e6e600;
         }
-        
+
         .high-contrast h1, .high-contrast .tab.active {
             background-color: var(--primary-color);
             color: black;
         }
-        
+
         .high-contrast button {
             background-color: var(--primary-color);
             color: black;
         }
-        
+
         .high-contrast .item-title {
             color: var(--primary-color);
         }
-        
+
         /* Adjust spacing for tab content to avoid footer overlap */
         .tab-content {
             padding-bottom: 150px;
         }
-        
+
         /* Media queries para móviles */
         @media (max-width: 768px) {
             .tab i {
@@ -367,19 +366,19 @@
                 display: block;
                 margin-bottom: 5px;
             }
-            
+
             .tab span {
                 font-size: 0.8rem;
             }
-            
+
             .tabs {
                 padding: 8px 0;
             }
-            
+
             .form-grid {
                 grid-template-columns: 1fr;
             }
-            
+
             .action-buttons {
                 flex-direction: column;
             }
@@ -389,7 +388,7 @@
 <body>
     <div class="container">
         <h1>Artículos Majahua</h1>
-        
+
         <!-- Tab content: Form -->
         <div id="form-tab-content" class="tab-content active">
             <div class="form-container">
@@ -415,7 +414,7 @@
                         <option value="Reutilizar">Reutilizar</option>
                     </select>
                 </div>
-                
+
                 <div class="action-buttons">
                     <button onclick="toggleContrast()"><i class="fas fa-adjust"></i> Modo Contraste</button>
                     <button onclick="addItem()"><i class="fas fa-plus"></i> Agregar</button>
@@ -423,7 +422,7 @@
                 </div>
             </div>
         </div>
-        
+
         <!-- Tab content: Items -->
         <div id="items-tab-content" class="tab-content">
             <div class="view-controls">
@@ -441,13 +440,13 @@
             </div>
         </div>
     </div>
-    
+
     <!-- Notification -->
     <div id="notification" class="notification">
         <i class="fas fa-check-circle"></i>
         <span>¡Artículo agregado exitosamente!</span>
     </div>
-    
+
     <!-- Tabs -->
     <div class="tabs">
         <div class="tab active" onclick="showTab('form-tab-content', this)">
@@ -459,22 +458,22 @@
             <span>Artículos</span>
         </div>
     </div>
-    
+
     <footer>
         <div class="footer-content">
             © 2025 Terraequipo® - Optimización y gestión de equipos pesados.
         </div>
     </footer>
-    
+
     <!-- Incluir librerías para exportación -->
     <script src="https://unpkg.com/xlsx/dist/xlsx.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js"></script>
     <script src="https://html2canvas.hertzen.com/dist/html2canvas.min.js"></script>
-    
+
     <script>
         // Array para almacenar todos los artículos
         let allItems = [];
-        
+
         // Formatear valor en formato de moneda mexicana
         function formatCurrency(value) {
             return new Intl.NumberFormat('es-MX', {
@@ -482,38 +481,38 @@
                 maximumFractionDigits: 2
             }).format(value);
         }
-        
+
         // Mostrar una pestaña
         function showTab(tabId, tabElement) {
             // Ocultar todas las pestañas
             document.querySelectorAll('.tab-content').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             // Desactivar todas las pestañas
             document.querySelectorAll('.tab').forEach(tab => {
                 tab.classList.remove('active');
             });
-            
+
             // Mostrar la pestaña seleccionada
             document.getElementById(tabId).classList.add('active');
-            
+
             // Activar la pestaña seleccionada
             tabElement.classList.add('active');
         }
-        
+
         // Cambiar la vista de los artículos
         function changeView(viewType) {
             const itemList = document.getElementById('item-list');
             const viewButtons = document.querySelectorAll('.view-btn');
             const currentViewSpan = document.getElementById('current-view');
-            
+
             // Desactivar todos los botones de vista
             viewButtons.forEach(btn => btn.classList.remove('active'));
-            
+
             // Activar el botón seleccionado
             event.currentTarget.classList.add('active');
-            
+
             // Actualizar el indicador de vista actual
             if (viewType === 'list') {
                 itemList.classList.add('list-view');
@@ -522,25 +521,25 @@
                 itemList.classList.remove('list-view');
                 currentViewSpan.textContent = 'Cuadrícula';
             }
-            
+
             // Animar el cambio de vista
             itemList.style.opacity = '0';
             setTimeout(() => {
                 itemList.style.opacity = '1';
             }, 100);
         }
-        
+
         // Mostrar notificación
         function showNotification() {
             const notification = document.getElementById('notification');
             notification.classList.add('show');
-            
+
             // Ocultar notificación después de 5 segundos
             setTimeout(() => {
                 notification.classList.remove('show');
             }, 5000);
         }
-        
+
         function addItem() {
             let name = document.getElementById('item-name').value.trim(); 
             let brand = document.getElementById('item-brand').value.trim();
@@ -590,13 +589,13 @@
                     item.imageData = e.target.result;
                     allItems.push(item);
                     createItemDiv(item, allItems.length - 1);
-                    
+
                     // Mostrar notificación
                     showNotification();
-                    
+
                     // Cambiar a la pestaña de artículos
                     document.querySelector('.tab:nth-child(2)').click();
-                    
+
                     // Limpiar formulario
                     clearForm();
                 };
@@ -604,13 +603,13 @@
             } else {
                 allItems.push(item);
                 createItemDiv(item, allItems.length - 1);
-                
+
                 // Mostrar notificación
                 showNotification();
-                
+
                 // Cambiar a la pestaña de artículos
                 document.querySelector('.tab:nth-child(2)').click();
-                
+
                 // Limpiar formulario
                 clearForm();
             }
@@ -621,13 +620,13 @@
             let itemDiv = document.createElement('div');
             itemDiv.classList.add('item');
             itemDiv.dataset.index = itemIndex;
-            
+
             // Ocultar mensaje de "no hay artículos"
             document.getElementById('no-items-message').style.display = 'none';
-            
+
             // Construir el HTML del artículo
             let imageHtml = item.imageData ? `<img src="${item.imageData}" alt="${item.name}">` : '';
-            
+
             itemDiv.innerHTML = `
                 <div class="item-title">${item.name} ${item.brand ? `(${item.brand})` : ''}</div>
                 ${imageHtml}
@@ -645,9 +644,10 @@
                 <div class="item-detail"><span>Categoría:</span> <span>${item.category}</span></div>
                 <div class="item-actions">
                     <button onclick="exportToPDF(${itemIndex})"><i class="fas fa-file-pdf"></i> Exportar a PDF</button>
+                    <button onclick="editItem(${itemIndex})"><i class="fas fa-edit"></i> Editar</button>
                 </div>
             `;
-            
+
             // Añadimos con una animación
             itemDiv.style.opacity = '0';
             itemList.appendChild(itemDiv);
@@ -655,7 +655,7 @@
                 itemDiv.style.opacity = '1';
             }, 10);
         }
-        
+
         function clearForm() {
             document.getElementById('item-name').value = '';
             document.getElementById('item-brand').value = '';
@@ -673,14 +673,60 @@
             document.getElementById('item-category').value = 'Reciclar'; 
             document.getElementById('item-image').value = '';
         }
-        
+
+        // Editar artículo
+        function editItem(itemIndex) {
+            const item = allItems[itemIndex];
+            if (!item) return;
+
+            // Cargar datos en el formulario
+            document.getElementById('item-name').value = item.name || '';
+            document.getElementById('item-brand').value = item.brand || '';
+            document.getElementById('item-description').value = item.description || '';
+            document.getElementById('item-weight').value = item.weight || '';
+            document.getElementById('item-condition').value = item.condition || '';
+            document.getElementById('item-market-value').value = item.marketValue || '';
+            document.getElementById('item-recycle-value').value = item.recycleValue || '';
+            document.getElementById('item-serial').value = item.serial || '';
+            document.getElementById('item-invoice').value = item.invoice || '';
+            document.getElementById('item-location').value = item.location || '';
+            document.getElementById('item-date').value = item.date || '';
+            document.getElementById('item-owner').value = item.owner || '';
+            document.getElementById('item-notes').value = item.notes || '';
+            document.getElementById('item-category').value = item.category || 'Reciclar';
+
+            // Cambiar a la pestaña de formulario
+            document.querySelector('.tab:nth-child(1)').click();
+
+            // Eliminar el artículo actual y añadir botón para guardar cambios
+            const actionButtons = document.querySelector('.action-buttons');
+
+            // Crear un botón temporal de guardar cambios si no existe
+            if (!document.getElementById('save-changes-btn')) {
+                const saveButton = document.createElement('button');
+                saveButton.id = 'save-changes-btn';
+                saveButton.innerHTML = '<i class="fas fa-save"></i> Guardar Cambios';
+                saveButton.onclick = function() {
+                    // Eliminar el artículo antiguo
+                    allItems.splice(itemIndex, 1);
+
+                    // Añadir el nuevo artículo
+                    addItem();
+
+                    // Restaurar el botón original
+                    saveButton.remove();
+                };
+                actionButtons.appendChild(saveButton);
+            }
+        }
+
         // Función para exportar a Excel
         function exportToExcel() {
             if (allItems.length === 0) {
                 alert('No hay artículos para exportar.');
                 return;
             }
-            
+
             // Crear una hoja de trabajo
             let workbook = XLSX.utils.book_new();
             let worksheet = XLSX.utils.json_to_sheet(allItems.map(item => {
@@ -688,107 +734,243 @@
                 const { imageData, ...itemWithoutImage } = item;
                 return itemWithoutImage;
             }));
-            
+
             // Añadir la hoja al libro
             XLSX.utils.book_append_sheet(workbook, worksheet, "Artículos");
-            
+
             // Generar el archivo Excel
             XLSX.writeFile(workbook, "articulos_majahua.xlsx");
         }
-        
+
         // Función para exportar a PDF
         function exportToPDF(itemIndex) {
             const { jsPDF } = window.jspdf;
             const item = allItems[itemIndex];
-            
+
             if (!item) {
                 alert('No se pudo encontrar el artículo.');
                 return;
             }
-            
+
             // Crear un nuevo PDF
             const pdf = new jsPDF('p', 'mm', 'a4');
             const pdfWidth = pdf.internal.pageSize.getWidth();
+            const pdfHeight = pdf.internal.pageSize.getHeight();
+            
+            // Definir colores y márgenes
+            const primaryColor = [217/255, 119/255, 6/255]; // Color naranja en formato RGB (0-1)
+            const secondaryColor = [51/255, 51/255, 51/255]; // Gris oscuro
+            const leftMargin = 20;
+            const rightMargin = pdfWidth - 20;
+            
+            // Añadir fondo para el encabezado
+            pdf.setFillColor(250, 247, 242); // Color de fondo claro
+            pdf.rect(0, 0, pdfWidth, 35, 'F');
             
             // Añadir encabezado con el nombre del artículo
-            pdf.setFontSize(18);
-            pdf.setTextColor(217, 119, 6); // Color primario
+            pdf.setFontSize(22);
+            pdf.setTextColor(...primaryColor);
+            pdf.setFont('helvetica', 'bold');
             pdf.text(item.name, pdfWidth/2, 15, { align: 'center' });
-            
+
             // Añadir subtítulo
             pdf.setFontSize(14);
-            pdf.setTextColor(0, 0, 0);
+            pdf.setTextColor(...secondaryColor);
+            pdf.setFont('helvetica', 'italic');
             pdf.text("Ficha Técnica", pdfWidth/2, 25, { align: 'center' });
-            
+
             // Añadir línea horizontal
-            pdf.setDrawColor(217, 119, 6);
-            pdf.setLineWidth(0.5);
-            pdf.line(20, 30, pdfWidth - 20, 30);
-            
+            pdf.setDrawColor(...primaryColor);
+            pdf.setLineWidth(0.8);
+            pdf.line(leftMargin, 32, rightMargin, 32);
+
             // Si hay imagen, añadirla
-            let currentY = 40;
+            let currentY = 45;
             if (item.imageData) {
                 // Crear imagen temporal para obtener dimensiones
                 const img = new Image();
                 img.src = item.imageData;
-                
+
                 // Calcular relación de aspecto manteniendo un ancho máximo
                 const maxWidth = 100;
                 const aspectRatio = img.height / img.width;
-                const imgWidth = Math.min(maxWidth, pdfWidth - 40);
+                const imgWidth = Math.min(maxWidth, pdfWidth - 60);
                 const imgHeight = imgWidth * aspectRatio;
-                
-                // Centrar imagen
+
+                // Centrar imagen y añadir borde
                 const imgX = (pdfWidth - imgWidth) / 2;
+                
+                // Añadir sombra (simulada con rectángulos desplazados)
+                pdf.setFillColor(200, 200, 200);
+                pdf.rect(imgX + 2, currentY + 2, imgWidth, imgHeight, 'F');
                 
                 // Añadir imagen
                 pdf.addImage(item.imageData, 'JPEG', imgX, currentY, imgWidth, imgHeight);
-                currentY += imgHeight + 15;
+                
+                // Añadir borde a la imagen
+                pdf.setDrawColor(...secondaryColor);
+                pdf.setLineWidth(0.3);
+                pdf.rect(imgX, currentY, imgWidth, imgHeight, 'S');
+                
+                currentY += imgHeight + 20;
             }
+
+            // Añadir sección de información
+            pdf.setFillColor(245, 245, 245);
+            pdf.rect(leftMargin - 5, currentY - 5, rightMargin - leftMargin + 10, 145, 'F');
             
+            // Título de la sección
+            pdf.setTextColor(...primaryColor);
+            pdf.setFontSize(14);
+            pdf.setFont('helvetica', 'bold');
+            pdf.text("INFORMACIÓN DEL ARTÍCULO", pdfWidth/2, currentY + 5, { align: 'center' });
+            currentY += 15;
+            
+            // Línea separadora
+            pdf.setDrawColor(...primaryColor);
+            pdf.setLineWidth(0.5);
+            pdf.line(leftMargin + 10, currentY, rightMargin - 10, currentY);
+            currentY += 10;
+
             // Añadir detalles del artículo
             pdf.setFontSize(11);
-            pdf.setTextColor(0, 0, 0);
-            
+            pdf.setTextColor(...secondaryColor);
+
             // Función auxiliar para añadir texto con etiqueta
             function addDetail(label, value, y) {
+                // Rectángulo para alternar filas 
+                if ((y - currentY) % 20 === 0) {
+                    pdf.setFillColor(240, 240, 240);
+                    pdf.rect(leftMargin, y - 5, rightMargin - leftMargin, 10, 'F');
+                }
+                
                 pdf.setFont('helvetica', 'bold');
-                pdf.text(label + ":", 20, y);
+                pdf.setTextColor(...primaryColor);
+                pdf.text(label + ":", leftMargin + 5, y);
+                
                 pdf.setFont('helvetica', 'normal');
-                pdf.text(value || 'N/A', 80, y);
-                return y + 8;
+                pdf.setTextColor(...secondaryColor);
+                pdf.text(value || 'N/A', leftMargin + 65, y);
+                
+                return y + 10;
             }
+
+            // Crear dos columnas para la información
+            const column1Y = currentY;
+            const column2Y = currentY;
+            const columnWidth = (rightMargin - leftMargin) / 2;
+            const column2X = leftMargin + columnWidth + 10;
             
-            currentY = addDetail("Marca", item.brand, currentY);
-            currentY = addDetail("Descripción", item.description, currentY);
-            currentY = addDetail("Peso", item.weight + " kg", currentY);
-            currentY = addDetail("Estado", item.condition, currentY);
-            currentY = addDetail("Valor de mercado", "$" + formatCurrency(item.marketValue), currentY);
-            currentY = addDetail("Valor reciclaje", "$" + formatCurrency(item.recycleValue) + "/kg", currentY);
-            currentY = addDetail("Número de serie", item.serial, currentY);
-            currentY = addDetail("Factura", item.invoice, currentY);
-            currentY = addDetail("Ubicación", item.location, currentY);
-            currentY = addDetail("Fecha de ingreso", item.date, currentY);
-            currentY = addDetail("Propietario", item.owner, currentY);
-            currentY = addDetail("Categoría", item.category, currentY);
+            // Primera columna
+            let col1Y = column1Y;
+            col1Y = addDetail("Marca", item.brand, col1Y);
+            col1Y = addDetail("Descripción", item.description, col1Y);
+            col1Y = addDetail("Peso", item.weight + " kg", col1Y);
+            col1Y = addDetail("Estado", item.condition, col1Y);
+            col1Y = addDetail("Valor de mercado", "$" + formatCurrency(item.marketValue), col1Y);
+            col1Y = addDetail("Valor reciclaje", "$" + formatCurrency(item.recycleValue) + "/kg", col1Y);
             
+            // Segunda columna
+            let col2Y = column2Y;
+            pdf.setFont('helvetica', 'bold');
+            pdf.setTextColor(...primaryColor);
+            pdf.text("Número de serie:", column2X, col2Y);
+            pdf.setFont('helvetica', 'normal');
+            pdf.setTextColor(...secondaryColor);
+            pdf.text(item.serial || 'N/A', column2X + 60, col2Y);
+            col2Y += 10;
+            
+            pdf.setFont('helvetica', 'bold');
+            pdf.setTextColor(...primaryColor);
+            pdf.text("Factura:", column2X, col2Y);
+            pdf.setFont('helvetica', 'normal');
+            pdf.setTextColor(...secondaryColor);
+            pdf.text(item.invoice || 'N/A', column2X + 60, col2Y);
+            col2Y += 10;
+            
+            pdf.setFont('helvetica', 'bold');
+            pdf.setTextColor(...primaryColor);
+            pdf.text("Ubicación:", column2X, col2Y);
+            pdf.setFont('helvetica', 'normal');
+            pdf.setTextColor(...secondaryColor);
+            pdf.text(item.location || 'N/A', column2X + 60, col2Y);
+            col2Y += 10;
+            
+            pdf.setFont('helvetica', 'bold');
+            pdf.setTextColor(...primaryColor);
+            pdf.text("Fecha de ingreso:", column2X, col2Y);
+            pdf.setFont('helvetica', 'normal');
+            pdf.setTextColor(...secondaryColor);
+            pdf.text(item.date || 'N/A', column2X + 60, col2Y);
+            col2Y += 10;
+            
+            pdf.setFont('helvetica', 'bold');
+            pdf.setTextColor(...primaryColor);
+            pdf.text("Propietario:", column2X, col2Y);
+            pdf.setFont('helvetica', 'normal');
+            pdf.setTextColor(...secondaryColor);
+            pdf.text(item.owner || 'N/A', column2X + 60, col2Y);
+            col2Y += 10;
+            
+            pdf.setFont('helvetica', 'bold');
+            pdf.setTextColor(...primaryColor);
+            pdf.text("Categoría:", column2X, col2Y);
+            pdf.setFont('helvetica', 'normal');
+            pdf.setTextColor(...secondaryColor);
+            pdf.text(item.category || 'N/A', column2X + 60, col2Y);
+            col2Y += 10;
+            
+            // Actualizar currentY al mayor valor entre las columnas
+            currentY = Math.max(col1Y, col2Y) + 10;
+
             // Añadir notas si existen
             if (item.notes) {
-                currentY += 5;
-                pdf.setFont('helvetica', 'bold');
-                pdf.text("Notas:", 20, currentY);
-                currentY += 8;
-                pdf.setFont('helvetica', 'normal');
+                // Sección de notas con fondo diferente
+                pdf.setFillColor(235, 235, 235);
+                const notesHeight = pdf.splitTextToSize(item.notes, rightMargin - leftMargin - 20).length * 7 + 20;
+                pdf.rect(leftMargin - 5, currentY - 5, rightMargin - leftMargin + 10, notesHeight, 'F');
                 
+                // Título de notas
+                pdf.setTextColor(...primaryColor);
+                pdf.setFontSize(14);
+                pdf.setFont('helvetica', 'bold');
+                pdf.text("NOTAS", pdfWidth/2, currentY + 5, { align: 'center' });
+                currentY += 15;
+                
+                // Línea separadora
+                pdf.setDrawColor(...primaryColor);
+                pdf.setLineWidth(0.5);
+                pdf.line(leftMargin + 10, currentY, rightMargin - 10, currentY);
+                currentY += 10;
+                
+                // Contenido de notas
+                pdf.setFont('helvetica', 'normal');
+                pdf.setTextColor(...secondaryColor);
+                pdf.setFontSize(11);
+
                 // Dividir notas en múltiples líneas si es necesario
-                const splitNotes = pdf.splitTextToSize(item.notes, pdfWidth - 40);
-                pdf.text(splitNotes, 20, currentY);
+                const splitNotes = pdf.splitTextToSize(item.notes, rightMargin - leftMargin - 20);
+                pdf.text(splitNotes, leftMargin + 10, currentY);
             }
             
-            // Añadir pie de página
+            // Añadir pie de página con fondo
+            pdf.setFillColor(51, 51, 51);
+            pdf.rect(0, pdfHeight - 15, pdfWidth, 15, 'F');
+            
             pdf.setFontSize(9);
-            pdf.setTextColor(100, 100, 100);
-            pdf.text("© 2025 Terraequipo® - Optimización y gestión de equipos pesados.", pdfWidth/2, 290, { align: 'center' });
+            pdf.setTextColor(255, 255, 255);
+            pdf.setFont('helvetica', 'normal');
+            pdf.text("© 2025 Terraequipo® - Optimización y gestión de equipos pesados.", pdfWidth/2, pdfHeight - 5, { align: 'center' });
+            
+            // Añadir un código QR simulado (rectángulo con texto)
+            pdf.setFillColor(255, 255, 255);
+            pdf.rect(rightMargin - 25, pdfHeight - 35, 20, 20, 'F');
+            pdf.setDrawColor(0);
+            pdf.setLineWidth(0.1);
+            pdf.rect(rightMargin - 25, pdfHeight - 35, 20, 20, 'S');
+            pdf.setFontSize(6);
+            pdf.setTextColor(0);
+            pdf.text("SCAN ME", rightMargin - 15, pdfHeight - 24, { align: 'center' });
             
             // Guardar el PDF con el nombre del artículo
             pdf.save(`${item.name.replace(/[^a-z0-9]/gi, '_').toLowerCase()}.pdf`);
@@ -797,19 +979,19 @@
         function toggleContrast() {
             document.body.classList.toggle('high-contrast');
         }
-        
+
         // Comprobar si hay artículos al cargar la página
         function checkItemsExist() {
             const noItemsMessage = document.getElementById('no-items-message');
             const itemList = document.getElementById('item-list');
-            
+
             if (allItems.length === 0) {
                 noItemsMessage.style.display = 'block';
             } else {
                 noItemsMessage.style.display = 'none';
             }
         }
-        
+
         // Comprobar si estamos en móvil para ajustar estilos adicionales
         document.addEventListener('DOMContentLoaded', function() {
             if (window.innerWidth <= 768) {
@@ -818,7 +1000,7 @@
                     icon.style.display = 'block';
                 });
             }
-            
+
             // Verificar si hay artículos al cargar
             checkItemsExist();
         });
