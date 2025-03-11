@@ -1,107 +1,406 @@
+
 <!DOCTYPE html>
 <html lang="es">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Artículos Majahua</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
     <style>
+        :root {
+            --primary-color: #d97706;
+            --primary-dark: #b65c04;
+            --background-color: #f8f5f0;
+            --card-color: #ffffff;
+            --text-color: #333333;
+            --accent-color: #3b82f6;
+        }
+        
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            transition: all 0.3s ease;
+        }
+        
         body {
-            font-family: Arial, sans-serif;
-            text-align: center;
-            background-color: #f4ede1;
-            color: #333;
+            font-family: 'Poppins', sans-serif;
+            background-color: var(--background-color);
+            color: var(--text-color);
+            line-height: 1.6;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
         }
+        
         h1 {
-            background-color: #d97706;
+            background-color: var(--primary-color);
             color: white;
-            padding: 10px;
+            padding: 15px;
             border-radius: 10px;
+            margin: 15px 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            text-align: center;
         }
+        
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 20px;
+            flex: 1;
+        }
+        
+        .form-container {
+            background-color: var(--card-color);
+            border-radius: 10px;
+            padding: 20px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+            gap: 10px;
+        }
+        
         input, select, button, textarea {
-            margin: 5px;
-            padding: 8px;
+            width: 100%;
+            padding: 10px;
             border-radius: 5px;
-            border: 1px solid #ccc;
+            border: 1px solid #ddd;
+            font-family: 'Poppins', sans-serif;
+            transition: border-color 0.3s;
         }
+        
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--accent-color);
+            box-shadow: 0 0 0 2px rgba(59, 130, 246, 0.2);
+        }
+        
         button {
-            background-color: #d97706;
+            background-color: var(--primary-color);
             color: white;
-            font-weight: bold;
+            font-weight: 500;
+            cursor: pointer;
+            border: none;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
+        }
+        
+        button:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        
+        .action-buttons {
+            display: flex;
+            gap: 10px;
+            margin-top: 15px;
+        }
+        
+        .action-buttons button {
+            flex: 1;
+        }
+        
+        .tabs {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            width: 100%;
+            background-color: var(--card-color);
+            display: flex;
+            justify-content: space-around;
+            padding: 10px 0;
+            box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.1);
+            z-index: 100;
+        }
+        
+        .tab {
+            padding: 10px 20px;
+            cursor: pointer;
+            text-align: center;
+            border-radius: 5px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            font-size: 0.9rem;
+            color: var(--text-color);
+            flex: 1;
+            max-width: 150px;
+        }
+        
+        .tab i {
+            font-size: 1.5rem;
+            margin-bottom: 5px;
+        }
+        
+        .tab.active {
+            background-color: var(--primary-color);
+            color: white;
+        }
+        
+        .tab-content {
+            display: none;
+            padding-bottom: 80px; /* Space for tabs */
+        }
+        
+        .tab-content.active {
+            display: block;
+            animation: fadeIn 0.5s ease;
+        }
+        
+        #items-tab-content {
+            padding: 20px 0;
+        }
+        
+        .view-controls {
+            display: flex;
+            justify-content: flex-end;
+            margin-bottom: 15px;
+            gap: 10px;
+        }
+        
+        .view-btn {
+            padding: 8px 12px;
+            background-color: var(--card-color);
+            border: 1px solid #ddd;
+            border-radius: 5px;
             cursor: pointer;
         }
-        button:hover {
-            background-color: #b65c04;
+        
+        .view-btn.active {
+            background-color: var(--primary-color);
+            color: white;
+            border-color: var(--primary-color);
         }
-        #item-list {
-            margin-top: 20px;
-            display: flex;
-            flex-wrap: wrap;
-            justify-content: center;
+        
+        .item-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
         }
+        
+        .item-list.list-view {
+            grid-template-columns: 1fr;
+        }
+        
         .item {
-            border: 2px solid #d97706;
-            background-color: #fff;
-            padding: 15px;
-            margin: 10px;
+            border: 1px solid #ddd;
+            background-color: var(--card-color);
+            padding: 20px;
             border-radius: 10px;
-            width: 250px;
-            box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.05);
+            transition: transform 0.3s, box-shadow 0.3s;
         }
+        
+        .item:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 8px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .item-title {
+            font-weight: 600;
+            font-size: 1.2rem;
+            margin-bottom: 10px;
+            color: var(--primary-color);
+        }
+        
         .item img {
             max-width: 100px;
             border-radius: 5px;
+            display: block;
+            margin: 10px 0;
         }
+        
+        .item-list.list-view .item {
+            display: grid;
+            grid-template-columns: 120px 1fr;
+            gap: 20px;
+            align-items: center;
+        }
+        
+        .item-list.list-view .item img {
+            grid-row: span 6;
+            margin: 0;
+        }
+        
+        .item-detail {
+            margin: 5px 0;
+            display: flex;
+            flex-wrap: wrap;
+        }
+        
+        .item-detail span:first-child {
+            font-weight: 500;
+            min-width: 150px;
+        }
+        
+        .item-actions {
+            margin-top: 15px;
+            display: flex;
+            gap: 10px;
+        }
+        
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            background-color: #10b981;
+            color: white;
+            padding: 15px 25px;
+            border-radius: 8px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+            z-index: 1000;
+            transform: translateX(200%);
+            display: flex;
+            align-items: center;
+            gap: 10px;
+        }
+        
+        .notification.show {
+            transform: translateX(0);
+            animation: slideIn 0.5s ease, fadeOut 0.5s ease 4s forwards;
+        }
+        
+        .notification i {
+            font-size: 1.5rem;
+        }
+        
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        
+        @keyframes slideIn {
+            from { transform: translateX(200%); }
+            to { transform: translateX(0); }
+        }
+        
+        @keyframes fadeOut {
+            from { opacity: 1; }
+            to { opacity: 0; }
+        }
+        
         footer {
-            margin-top: 30px;
             background-color: #222;
             color: white;
-            padding: 15px;
+            padding: 20px;
             font-size: 14px;
+            text-align: center;
+            margin-top: auto;
         }
+        
+        .footer-content {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
         .high-contrast {
-            background-color: black !important;
-            color: yellow !important;
+            --background-color: black;
+            --card-color: #333;
+            --text-color: yellow;
+            --primary-color: yellow;
+            --primary-dark: #e6e600;
         }
-        .high-contrast h1 {
-            background-color: yellow !important;
-            color: black !important;
+        
+        .high-contrast h1, .high-contrast .tab.active {
+            background-color: var(--primary-color);
+            color: black;
         }
+        
         .high-contrast button {
-            background-color: yellow !important;
-            color: black !important;
+            background-color: var(--primary-color);
+            color: black;
+        }
+        
+        .high-contrast .item-title {
+            color: var(--primary-color);
+        }
+        
+        /* Adjust spacing for tab content to avoid footer overlap */
+        .tab-content {
+            padding-bottom: 150px;
         }
     </style>
 </head>
 <body>
-    <h1>Artículos Majahua</h1>
-    <button onclick="toggleContrast()">Modo Alto Contraste</button>
-    <input type="text" id="item-name" placeholder="Nombre del ítem">
-    <input type="file" id="item-image" accept="image/*">
-    <input type="text" id="item-brand" placeholder="Marca">
-    <input type="text" id="item-description" placeholder="Descripción">
-    <input type="text" id="item-weight" placeholder="Peso (kg)">
-    <input type="text" id="item-condition" placeholder="Estado">
-    <input type="text" id="item-market-value" placeholder="Valor de mercado ($)">
-    <input type="text" id="item-recycle-value" placeholder="Valor reciclaje ($/kg)">
-    <input type="text" id="item-serial" placeholder="Número de serie">
-    <input type="text" id="item-invoice" placeholder="Factura">
-    <input type="text" id="item-location" placeholder="Ubicación">
-    <input type="date" id="item-date" placeholder="Fecha de ingreso">
-    <input type="text" id="item-owner" placeholder="Propietario">
-    <textarea id="item-notes" placeholder="Notas adicionales"></textarea>
-    <select id="item-category">
-        <option value="Reciclar">Reciclar</option>
-        <option value="Vender">Vender</option>
-        <option value="Redirigir">Redirigir</option>
-        <option value="Reutilizar">Reutilizar</option>
-    </select>
-    <button onclick="addItem()">Agregar Ítem</button>
-    <button onclick="exportToExcel()">Exportar a Excel</button>
+    <div class="container">
+        <h1>Artículos Majahua</h1>
+        
+        <!-- Tab content: Form -->
+        <div id="form-tab-content" class="tab-content active">
+            <div class="form-container">
+                <div class="form-grid">
+                    <input type="text" id="item-name" placeholder="Nombre del ítem">
+                    <input type="file" id="item-image" accept="image/*">
+                    <input type="text" id="item-brand" placeholder="Marca">
+                    <input type="text" id="item-description" placeholder="Descripción">
+                    <input type="text" id="item-weight" placeholder="Peso (kg)">
+                    <input type="text" id="item-condition" placeholder="Estado">
+                    <input type="text" id="item-market-value" placeholder="Valor de mercado ($)">
+                    <input type="text" id="item-recycle-value" placeholder="Valor reciclaje ($/kg)">
+                    <input type="text" id="item-serial" placeholder="Número de serie">
+                    <input type="text" id="item-invoice" placeholder="Factura">
+                    <input type="text" id="item-location" placeholder="Ubicación">
+                    <input type="date" id="item-date" placeholder="Fecha de ingreso">
+                    <input type="text" id="item-owner" placeholder="Propietario">
+                    <textarea id="item-notes" placeholder="Notas adicionales"></textarea>
+                    <select id="item-category">
+                        <option value="Reciclar">Reciclar</option>
+                        <option value="Vender">Vender</option>
+                        <option value="Redirigir">Redirigir</option>
+                        <option value="Reutilizar">Reutilizar</option>
+                    </select>
+                </div>
+                
+                <div class="action-buttons">
+                    <button onclick="toggleContrast()"><i class="fas fa-adjust"></i> Modo Contraste</button>
+                    <button onclick="addItem()"><i class="fas fa-plus"></i> Agregar Ítem</button>
+                    <button onclick="exportToExcel()"><i class="fas fa-file-excel"></i> Exportar a Excel</button>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tab content: Items -->
+        <div id="items-tab-content" class="tab-content">
+            <div class="view-controls">
+                <button class="view-btn active" onclick="changeView('grid')"><i class="fas fa-th"></i> Cuadrícula</button>
+                <button class="view-btn" onclick="changeView('list')"><i class="fas fa-list"></i> Lista</button>
+            </div>
+            <div id="item-list" class="item-list"></div>
+        </div>
+    </div>
     
-    <div id="item-list"></div>
-
+    <!-- Notification -->
+    <div id="notification" class="notification">
+        <i class="fas fa-check-circle"></i>
+        <span>¡Artículo agregado exitosamente!</span>
+    </div>
+    
+    <!-- Tabs -->
+    <div class="tabs">
+        <div class="tab active" onclick="showTab('form-tab-content', this)">
+            <i class="fas fa-edit"></i>
+            <span>Formulario</span>
+        </div>
+        <div class="tab" onclick="showTab('items-tab-content', this)">
+            <i class="fas fa-box"></i>
+            <span>Artículos</span>
+        </div>
+    </div>
+    
     <footer>
-        © 2025 Terraequipo® - Optimización y gestión de equipos pesados.
+        <div class="footer-content">
+            © 2025 Terraequipo® - Optimización y gestión de equipos pesados.
+        </div>
     </footer>
     
     <!-- Incluir librerías para exportación -->
@@ -112,6 +411,54 @@
     <script>
         // Array para almacenar todos los artículos
         let allItems = [];
+        
+        // Mostrar una pestaña
+        function showTab(tabId, tabElement) {
+            // Ocultar todas las pestañas
+            document.querySelectorAll('.tab-content').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Desactivar todas las pestañas
+            document.querySelectorAll('.tab').forEach(tab => {
+                tab.classList.remove('active');
+            });
+            
+            // Mostrar la pestaña seleccionada
+            document.getElementById(tabId).classList.add('active');
+            
+            // Activar la pestaña seleccionada
+            tabElement.classList.add('active');
+        }
+        
+        // Cambiar la vista de los artículos
+        function changeView(viewType) {
+            const itemList = document.getElementById('item-list');
+            const viewButtons = document.querySelectorAll('.view-btn');
+            
+            // Desactivar todos los botones de vista
+            viewButtons.forEach(btn => btn.classList.remove('active'));
+            
+            // Activar el botón seleccionado
+            event.currentTarget.classList.add('active');
+            
+            if (viewType === 'list') {
+                itemList.classList.add('list-view');
+            } else {
+                itemList.classList.remove('list-view');
+            }
+        }
+        
+        // Mostrar notificación
+        function showNotification() {
+            const notification = document.getElementById('notification');
+            notification.classList.add('show');
+            
+            // Ocultar notificación después de 5 segundos
+            setTimeout(() => {
+                notification.classList.remove('show');
+            }, 5000);
+        }
         
         function addItem() {
             let name = document.getElementById('item-name').value.trim(); 
@@ -160,45 +507,63 @@
             if (imageFile) {
                 let reader = new FileReader();
                 reader.onload = function (e) {
-                    imageSrc = `<img src="${e.target.result}" width="100"><br>`;
-                    item.imageData = e.target.result;
+                    imageSrc = e.target.result;
+                    item.imageData = imageSrc;
                     allItems.push(item);
-                    createItemDiv(name, brand, description, weight, condition, marketValue, recycleValue, 
-                                 serial, invoice, location, date, owner, notes, category, imageSrc, allItems.length - 1);
+                    createItemDiv(item, allItems.length - 1);
+                    
+                    // Mostrar notificación
+                    showNotification();
+                    
+                    // Limpiar formulario
+                    clearForm();
                 };
                 reader.readAsDataURL(imageFile);
             } else {
                 allItems.push(item);
-                createItemDiv(name, brand, description, weight, condition, marketValue, recycleValue, 
-                             serial, invoice, location, date, owner, notes, category, imageSrc, allItems.length - 1); 
+                createItemDiv(item, allItems.length - 1);
+                
+                // Mostrar notificación
+                showNotification();
+                
+                // Limpiar formulario
+                clearForm();
             }
         }
 
-        function createItemDiv(name, brand, description, weight, condition, marketValue, recycleValue, serial, invoice, location, date, owner, notes, category, imageSrc, itemIndex) {
+        function createItemDiv(item, itemIndex) {
             let itemList = document.getElementById('item-list');
             let itemDiv = document.createElement('div');
             itemDiv.classList.add('item');
             itemDiv.dataset.index = itemIndex;
             
-            itemDiv.innerHTML = `<strong>${name} (${brand})</strong><br>
-                                ${imageSrc}
-                                Descripción: ${description}<br>
-                                Peso: ${weight} kg<br>
-                                Estado: ${condition}<br>
-                                Valor de mercado: $${marketValue}<br>
-                                Valor reciclaje: $${recycleValue}/kg<br>
-                                Número de serie: ${serial}<br>
-                                Factura: ${invoice}<br>
-                                Ubicación: ${location}<br>
-                                Fecha de ingreso: ${date}<br>
-                                Propietario: ${owner}<br>
-                                Notas: ${notes}<br>
-                                Categoría: ${category}
-                                <br><button onclick="exportToPDF(${itemIndex})">Exportar a PDF</button>`;
+            // Construir el HTML del artículo
+            let imageHtml = item.imageData ? `<img src="${item.imageData}" alt="${item.name}">` : '';
+            
+            itemDiv.innerHTML = `
+                <div class="item-title">${item.name} ${item.brand ? `(${item.brand})` : ''}</div>
+                ${imageHtml}
+                <div class="item-detail"><span>Descripción:</span> <span>${item.description || 'N/A'}</span></div>
+                <div class="item-detail"><span>Peso:</span> <span>${item.weight} kg</span></div>
+                <div class="item-detail"><span>Estado:</span> <span>${item.condition || 'N/A'}</span></div>
+                <div class="item-detail"><span>Valor de mercado:</span> <span>$${item.marketValue}</span></div>
+                <div class="item-detail"><span>Valor reciclaje:</span> <span>$${item.recycleValue}/kg</span></div>
+                <div class="item-detail"><span>Número de serie:</span> <span>${item.serial || 'N/A'}</span></div>
+                <div class="item-detail"><span>Factura:</span> <span>${item.invoice || 'N/A'}</span></div>
+                <div class="item-detail"><span>Ubicación:</span> <span>${item.location || 'N/A'}</span></div>
+                <div class="item-detail"><span>Fecha de ingreso:</span> <span>${item.date || 'N/A'}</span></div>
+                <div class="item-detail"><span>Propietario:</span> <span>${item.owner || 'N/A'}</span></div>
+                <div class="item-detail"><span>Notas:</span> <span>${item.notes || 'N/A'}</span></div>
+                <div class="item-detail"><span>Categoría:</span> <span>${item.category}</span></div>
+                <div class="item-actions">
+                    <button onclick="exportToPDF(${itemIndex})"><i class="fas fa-file-pdf"></i> Exportar a PDF</button>
+                </div>
+            `;
             
             itemList.appendChild(itemDiv);
-            alert('Ítem agregado correctamente.');
-
+        }
+        
+        function clearForm() {
             document.getElementById('item-name').value = '';
             document.getElementById('item-brand').value = '';
             document.getElementById('item-description').value = '';
@@ -225,7 +590,11 @@
             
             // Crear una hoja de trabajo
             let workbook = XLSX.utils.book_new();
-            let worksheet = XLSX.utils.json_to_sheet(allItems);
+            let worksheet = XLSX.utils.json_to_sheet(allItems.map(item => {
+                // Excluir datos de imagen para Excel
+                const { imageData, ...itemWithoutImage } = item;
+                return itemWithoutImage;
+            }));
             
             // Añadir la hoja al libro
             XLSX.utils.book_append_sheet(workbook, worksheet, "Artículos");
@@ -250,12 +619,13 @@
             tempDiv.style.width = "500px";
             tempDiv.style.padding = "20px";
             tempDiv.style.backgroundColor = "white";
+            tempDiv.style.color = "black";
             
-            // Ocultar el botón de exportar en la copia
-            let exportButton = tempDiv.querySelector('button');
-            if (exportButton) {
-                exportButton.style.display = 'none';
-            }
+            // Ocultar los botones en la copia
+            let buttons = tempDiv.querySelectorAll('button');
+            buttons.forEach(button => {
+                button.style.display = 'none';
+            });
             
             document.body.appendChild(tempDiv);
             
